@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Flexter — Premium Banner & Flex Generator (Preview + HD Export)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;600&family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg-a: #0d0d23;
+            --bg-b: #1a0d33;
+            --accent1: #ff006e;
+            --accent2: #8338ec;
+            --glow: #06ffa5;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-a), var(--bg-b));
+            color: #fff;
+            min-height: 100vh;
+            padding: 28px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .app {
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 22px;
+        }
+        /* left panel */
+        
+        .panel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 18px;
+            border-radius: 14px;
+            backdrop-filter: blur(8px);
+        }
+        
+        header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 26px;
+            margin: 0 0 6px;
+            background: linear-gradient(45deg, var(--accent1), var(--accent2), #06ffa5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        header p {
+            margin: 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7)
+        }
+        
+        .section {
+            margin-top: 16px
+        }
+        
+        .section h3 {
+            margin: 0 0 8px;
+            font-size: 14px;
+            color: #f3f3ff
+        }
+        
+        .events {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+        
+        .event {
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+        
+        .event.active {
+            box-shadow: 0 10px 30px rgba(131, 56, 236, 0.12);
+            transform: translateY(-4px);
+            border: 1px solid rgba(131, 56, 236, 0.25)
+        }
+        
+        .templates {
+            display: flex;
+            gap: 8px;
+            overflow: auto;
+            padding-bottom: 6px
+        }
+        
+        .tmpl {
+            min-width: 92px;
+            height: 64px;
+            border-radius: 10px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01))
+        }
+        
+        .tmpl.active {
+            outline: 3px solid rgba(131, 56, 236, 0.16);
+            transform: translateY(-4px)
+        }
+        
+        .photo-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+        
+        input[type="number"],
+        select,
+        input[type="file"] {
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: none;
+            color: #fff
+        }
+        
+        .slots {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+        
+        .slot {
+            width: 84px;
+            height: 84px;
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.12)
+        }
+        
+        .slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+        
+        .slot .mainBadge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 4px 6px;
+            font-size: 11px;
+            border-radius: 6px
+        }
+        
+        .slot .setMain {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: linear-gradient(45deg, #06ffa5, #3a86ff);
+            padding: 4px 6px;
+            font-size: 11px;
+            border-radius: 6px;
+            cursor: pointer
+        }
+        
+        .chip {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.04)
+        }
+        
+        .chip.active {
+            background: linear-gradient(45deg, var(--accent1), var(--accent2));
+            color: #000;
+            font-weight: 700
+        }
+        /* preview panel */
+        
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .preview-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* decorative glass frame */
+        
+        .glassy-frame {
+            width: 100%;
+            min-height: 560px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* poster area (center) */
+        
+        .poster {
+            width: 80%;
+            max-width: 1100px;
+            height: 520px;
+            background: #151026;
+            border-radius: 12px;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            transform-origin: center center;
+            transition: transform .35s ease, box-shadow .35s ease;
+            border: 6px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .poster.neon {
+            box-shadow: 0 30px 80px rgba(131, 56, 236, 0.12), 0 0 30px rgba(131, 56, 236, 0.06);
+            border-image: linear-gradient(45deg, var(--accent1), var(--accent2)) 1;
+        }
+        /* animated zoom when content changes */
+        
+        .poster.animate {
+            animation: posterPulse .45s ease;
+        }
+        
+        @keyframes posterPulse {
+            0% {
+                transform: scale(.98);
+                opacity: 0.9
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 1
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+        /* inside poster layers */
+        
+        .poster .bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.95);
+        }
+        
+        .poster .overlay-grad {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.35));
+            pointer-events: none
+        }
+        
+        .poster .photo-layer {
+            position: absolute;
+            inset: 0;
+            display: block;
+        }
+        
+        .poster .text-layer {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 28px;
+            text-align: center;
+            pointer-events: none
+        }
+        
+        .main-photo {
+            position: absolute;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        .main-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+        
+        .side-photo {
+            position: absolute;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+        }
+        
+        .photo-frame {
+            position: absolute;
+            inset: 12px;
+            border-radius: 12px;
+            pointer-events: none;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02)
+        }
+        /* text styles */
+        
+        .poster .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 36px;
+            letter-spacing: 2px;
+            text-shadow: 0 8px 28px rgba(131, 56, 236, 0.12)
+        }
+        
+        .poster .subtitle {
+            font-size: 18px;
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.9)
+        }
+        
+        .poster .meta {
+            font-size: 14px;
+            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.75)
+        }
+        /* controls at bottom */
+        
+        .controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 6px
+        }
+        
+        .small {
+            padding: 8px 12px;
+            font-size: 13px
+        }
+        /* responsive */
+        
+        @media (max-width:1100px) {
+            .app {
+                grid-template-columns: 1fr;
+            }
+            .poster {
+                height: 420px;
+                width: 92%
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- LEFT: Controls -->
+        <div class="panel">
+            <header>
+                <h1>Flexter</h1>
+                <p>Premium Banner & Flex Generator — preview + HD export</p>
+            </header>
+
+            <div class="section">
+                <h3>Event</h3>
+                <div class="events" id="events">
+                    <div class="event active" data-event="Marriage">Marriage</div>
+                    <div class="event" data-event="Birthday">Birthday</div>
+                    <div class="event" data-event="Baby Shower">Baby Shower</div>
+                    <div class="event" data-event="Political">Political</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Template</h3>
+                <div class="templates" id="templateRow"></div>
+            </div>
+
+            <div class="section">
+                <h3>Photos & Layout</h3>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <input id="photoCount" type="number" min="1" max="8" value="1" />
+                    <button class="btn small" id="genSlots">Generate</button>
+                </div>
+                <div style="margin-top:8px">
+                    <label style="font-size:12px">Layout preset</label>
+                    <select id="layoutPreset" style="width:100%;margin-top:6px">
+            <option value="auto">Auto arrange</option>
+            <option value="1">1 Main only</option>
+            <option value="1+2">1 Main + 2 sides</option>
+            <option value="1+6">1 Main + 6 sides</option>
+          </select>
+                </div>
+                <div class="slots" id="slots"></div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:8px">Click a slot to upload. Use "Set Main" to change main photo.</div>
+            </div>
+
+            <div class="section">
+                <h3>Background</h3>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <input id="bgUpload" type="file" accept="image/*" />
+                    <button class="btn small" id="resetBg">Reset</button>
+                </div>
+                <div style="margin-top:8px" class="templates">
+                    <div class="tmpl" data-bg='{"type":"gradient","name":"goldMaroon"}'>Gold + Maroon</div>
+                    <div class="tmpl" data-bg='{"type":"gradient","name":"neon"}'>Neon Glow</div>
+                    <div class="tmpl" data-bg='{"type":"gradient","name":"party"}'>Party</div>
+                    <div class="tmpl" data-bg='{"type":"gradient","name":"pastel"}'>Pastel</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Text</h3>
+                <div id="textInputs"></div>
+                <div style="margin-top:8px">
+                    <label style="font-size:12px">Font</label>
+                    <select id="fontSelect" style="width:100%;margin-top:6px">
+            <option value="Orbitron">Orbitron</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Noto Sans Tamil">Noto Sans Tamil</option>
+          </select>
+                </div>
+                <div style="margin-top:8px;display:flex;gap:8px">
+                    <div class="chip" id="neonChip">Neon</div>
+                    <div class="chip" id="outlineChip">Outline</div>
+                    <div class="chip" id="gradientChip">Gradient</div>
+                </div>
+            </div>
+
+            <div class="section" id="politicalSection" style="display:none">
+                <h3>Political — Flag Colors</h3>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <label style="font-size:13px">Colors</label>
+                    <input id="flagCount" type="number" min="1" max="5" value="2" style="width:64px" />
+                </div>
+                <div id="flagColors" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"></div>
+            </div>
+
+            <div class="section">
+                <h3>Export</h3>
+                <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+                    <div style="display:flex;gap:8px;align-items:center">
+                        <select id="exportSize">
+              <option value="1920x1080">1920×1080 (HD)</option>
+              <option value="3840x2160">3840×2160 (4K)</option>
+              <option value="1080x1920">1080×1920 (Poster)</option>
+            </select>
+                        <label style="font-size:12px;color:rgba(255,255,255,0.7)">Format</label>
+                        <select id="exportFormat"><option value="png">PNG</option><option value="jpeg">JPG</option></select>
+                    </div>
+                    <div>
+                        <button class="btn" id="renderHD">Render & Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Preview -->
+        <div class="preview-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><strong>Live Poster Preview</strong>
+                    <div style="font-size:12px;color:rgba(255,255,255,0.7)">Zoom + animated • Click Render to save HD</div>
+                </div>
+                <div style="display:flex;gap:8px">
+                    <button class="btn small" id="quickRender">Quick Render</button>
+                    <button class="btn small" id="quickDownload">Quick Download</button>
+                </div>
+            </div>
+
+            <div class="preview-wrap">
+                <div class="glassy-frame">
+                    <div class="poster neon" id="poster" role="img" aria-label="poster preview">
+                        <div class="bg" id="posterBg"></div>
+                        <div class="photo-layer" id="photoLayer"></div>
+                        <div class="overlay-grad"></div>
+                        <div class="text-layer" id="textLayer"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <div class="note" style="font-size:12px;color:rgba(255,255,255,0.7)">Tip: Mark main photo for best composition.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ---------------- State ---------------- */
+        const state = {
+            event: 'Marriage',
+            template: null,
+            photos: [], // {dataUrl, isMain}
+            bg: {
+                type: 'gradient',
+                name: 'neon',
+                dataUrl: null
+            },
+            text: {},
+            font: 'Orbitron',
+            effects: {
+                neon: false,
+                outline: false,
+                gradient: false
+            },
+            flagColors: ['#ff0000', '#ffffff'],
+            layoutPreset: 'auto'
+        };
+
+        /* -------------- DOM Refs --------------- */
+        const eventsEl = document.getElementById('events');
+        const templateRow = document.getElementById('templateRow');
+        const slotsEl = document.getElementById('slots');
+        const genSlotsBtn = document.getElementById('genSlots');
+        const photoCountInput = document.getElementById('photoCount');
+        const layoutPreset = document.getElementById('layoutPreset');
+        const poster = document.getElementById('poster');
+        const posterBg = document.getElementById('posterBg');
+        const photoLayer = document.getElementById('photoLayer');
+        const textLayer = document.getElementById('textLayer');
+        const textInputs = document.getElementById('textInputs');
+        const fontSelect = document.getElementById('fontSelect');
+        const neonChip = document.getElementById('neonChip');
+        const outlineChip = document.getElementById('outlineChip');
+        const gradientChip = document.getElementById('gradientChip');
+        const bgUpload = document.getElementById('bgUpload');
+        const resetBg = document.getElementById('resetBg');
+        const tmplButtons = document.querySelectorAll('.tmpl[data-bg]');
+        const politicalSection = document.getElementById('politicalSection');
+        const flagCount = document.getElementById('flagCount');
+        const flagColorsEl = document.getElementById('flagColors');
+        const quickRender = document.getElementById('quickRender');
+        const renderHD = document.getElementById('renderHD');
+        const exportSize = document.getElementById('exportSize');
+        const exportFormat = document.getElementById('exportFormat');
+        const quickDownload = document.getElementById('quickDownload');
+
+        /* ------------- Templates -------------- */
+        const TEMPLATES = {
+            'Marriage': [{
+                id: 'goldMaroon',
+                label: 'Gold + Maroon',
+                bg: {
+                    type: 'gradient',
+                    name: 'goldMaroon'
+                }
+            }, {
+                id: 'glassHearts',
+                label: 'Glass Hearts',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }, {
+                id: 'darkRings',
+                label: 'Dark Neon',
+                bg: {
+                    type: 'gradient',
+                    name: 'neon'
+                }
+            }, {
+                id: 'temple',
+                label: 'Temple',
+                bg: {
+                    type: 'gradient',
+                    name: 'temple'
+                }
+            }],
+            'Birthday': [{
+                id: 'neonB',
+                label: 'Neon Balloons',
+                bg: {
+                    type: 'gradient',
+                    name: 'neon'
+                }
+            }, {
+                id: 'cartoon',
+                label: 'Cartoon',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }, {
+                id: 'confetti',
+                label: 'Confetti',
+                bg: {
+                    type: 'gradient',
+                    name: 'party'
+                }
+            }, {
+                id: 'cake',
+                label: 'Cake',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }],
+            'Baby Shower': [{
+                id: 'pastelClouds',
+                label: 'Pastel Clouds',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }, {
+                id: 'toys',
+                label: 'Toys',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }, {
+                id: 'goldCute',
+                label: 'Gold Cute',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }, {
+                id: 'minimal',
+                label: 'Minimal',
+                bg: {
+                    type: 'gradient',
+                    name: 'pastel'
+                }
+            }],
+            'Political': [{
+                id: 'darkNeon',
+                label: 'Dark Neon',
+                bg: {
+                    type: 'gradient',
+                    name: 'neon'
+                }
+            }, {
+                id: 'flagDynamic',
+                label: 'Flag Gradient',
+                bg: {
+                    type: 'gradient',
+                    name: 'flag'
+                }
+            }, {
+                id: 'circular',
+                label: 'Circular Frame',
+                bg: {
+                    type: 'gradient',
+                    name: 'neon'
+                }
+            }, {
+                id: 'glassBold',
+                label: 'Glass + Bold',
+                bg: {
+                    type: 'gradient',
+                    name: 'temple'
+                }
+            }]
+        };
+
+        /* -------------- Init UI --------------- */
+        function init() {
+            // events
+            Array.from(eventsEl.querySelectorAll('.event')).forEach(el => {
+                el.addEventListener('click', () => {
+                    eventsEl.querySelectorAll('.event').forEach(x => x.classList.remove('active'));
+                    el.classList.add('active');
+                    state.event = el.dataset.event;
+                    state.photos = [];
+                    generateSlots(1);
+                    buildTemplates();
+                    buildTextInputs();
+                    politicalSection.style.display = (state.event === 'Political') ? 'block' : 'none';
+                    renderPoster(true);
+                });
+            });
+
+            buildTemplates();
+            buildTextInputs();
+            generateSlots(1);
+            buildFlagPickers();
+            attachControls();
+            renderPoster(true);
+        }
+        init();
+
+        /* ----------- Build Templates UI ---------- */
+        function buildTemplates() {
+            templateRow.innerHTML = '';
+            const list = TEMPLATES[state.event] || [];
+            list.forEach((t, idx) => {
+                const d = document.createElement('div');
+                d.className = 'tmpl';
+                d.innerText = t.label;
+                d.dataset.tid = t.id;
+                d.dataset.bg = JSON.stringify(t.bg || {
+                    type: 'gradient',
+                    name: 'neon'
+                });
+                d.addEventListener('click', () => {
+                    templateRow.querySelectorAll('.tmpl').forEach(x => x.classList.remove('active'));
+                    d.classList.add('active');
+                    state.template = t.id;
+                    state.bg = t.bg;
+                    renderPoster(true);
+                });
+                if (idx === 0) {
+                    d.classList.add('active');
+                    state.template = t.id;
+                    state.bg = t.bg;
+                }
+                templateRow.appendChild(d);
+            });
+        }
+
+        /* ----------- Text inputs per event ---------- */
+        function buildTextInputs() {
+            textInputs.innerHTML = '';
+            const ev = state.event;
+            const fields = (ev === 'Marriage') ? [{
+                id: 'bride',
+                label: 'Bride Name'
+            }, {
+                id: 'groom',
+                label: 'Groom Name'
+            }, {
+                id: 'venue',
+                label: 'Venue'
+            }, {
+                id: 'date',
+                label: 'Date'
+            }, {
+                id: 'bless',
+                label: 'Blessing Message'
+            }] : (ev === 'Birthday') ? [{
+                id: 'name',
+                label: 'Name'
+            }, {
+                id: 'age',
+                label: 'Age'
+            }, {
+                id: 'venue',
+                label: 'Venue'
+            }, {
+                id: 'date',
+                label: 'Date'
+            }, {
+                id: 'wish',
+                label: 'Wishes'
+            }] : (ev === 'Baby Shower') ? [{
+                id: 'parents',
+                label: "Parents' Names"
+            }, {
+                id: 'baby',
+                label: 'Baby Name'
+            }, {
+                id: 'venue',
+                label: 'Venue'
+            }, {
+                id: 'date',
+                label: 'Date'
+            }] : [{
+                id: 'eventName',
+                label: 'Event Name'
+            }, {
+                id: 'leader',
+                label: 'Leader Name'
+            }, {
+                id: 'slogan',
+                label: 'Slogan'
+            }, {
+                id: 'venue',
+                label: 'Venue'
+            }, {
+                id: 'date',
+                label: 'Date'
+            }];
+
+            state.text = {}; // reset
+            fields.forEach(f => {
+                const inp = document.createElement('input');
+                inp.placeholder = f.label;
+                inp.id = 'txt_' + f.id;
+                inp.addEventListener('input', () => {
+                    state.text[f.id] = inp.value;
+                    renderPoster();
+                });
+                textInputs.appendChild(inp);
+            });
+        }
+
+        /* ---------- Slot management ---------- */
+        function generateSlots(n) {
+            n = Math.max(1, Math.min(8, parseInt(n || photoCountInput.value || 1)));
+            photoCountInput.value = n;
+            // keep existing where possible
+            const existing = state.photos.slice(0, n);
+            state.photos = existing;
+            while (state.photos.length < n) state.photos.push({
+                dataUrl: null,
+                isMain: false
+            });
+            if (!state.photos.some(p => p.isMain)) state.photos[0].isMain = true;
+            renderSlots();
+            renderPoster();
+        }
+        document.getElementById('genSlots').addEventListener('click', () => generateSlots());
+
+        function renderSlots() {
+            slotsEl.innerHTML = '';
+            state.photos.forEach((p, i) => {
+                const s = document.createElement('div');
+                s.className = 'slot';
+                s.dataset.index = i;
+                if (p.dataUrl) {
+                    const img = document.createElement('img');
+                    img.src = p.dataUrl;
+                    s.appendChild(img);
+                } else {
+                    s.innerHTML = '<div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.6)">Upload</div>';
+                }
+                if (p.isMain) {
+                    const badge = document.createElement('div');
+                    badge.className = 'mainBadge';
+                    badge.innerText = 'MAIN';
+                    s.appendChild(badge);
+                }
+                const setMain = document.createElement('div');
+                setMain.className = 'setMain';
+                setMain.innerText = 'Set Main';
+                setMain.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    state.photos.forEach(x => x.isMain = false);
+                    state.photos[i].isMain = true;
+                    renderSlots();
+                    renderPoster(true);
+                });
+                s.appendChild(setMain);
+
+                s.addEventListener('click', () => {
+                    const inp = document.createElement('input');
+                    inp.type = 'file';
+                    inp.accept = 'image/*';
+                    inp.onchange = e => {
+                        const f = e.target.files[0];
+                        if (!f) return;
+                        const r = new FileReader();
+                        r.onload = ev => {
+                            state.photos[i].dataUrl = ev.target.result;
+                            if (!state.photos.some(p => p.isMain)) state.photos[i].isMain = true;
+                            renderSlots();
+                            renderPoster(true);
+                        };
+                        r.readAsDataURL(f);
+                    };
+                    inp.click();
+                });
+                slotsEl.appendChild(s);
+            });
+        }
+
+        /* ---------- Background handling ---------- */
+        bgUpload.addEventListener('change', e => {
+            const f = e.target.files[0];
+            if (!f) return;
+            const r = new FileReader();
+            r.onload = ev => {
+                state.bg = {
+                    type: 'image',
+                    dataUrl: ev.target.result
+                };
+                renderPoster(true);
+            };
+            r.readAsDataURL(f);
+        });
+        resetBg.addEventListener('click', () => {
+            state.bg = {
+                type: 'gradient',
+                name: 'neon'
+            };
+            renderPoster(true);
+        });
+        document.querySelectorAll('.tmpl[data-bg]').forEach(t => {
+            t.addEventListener('click', () => {
+                document.querySelectorAll('.tmpl[data-bg]').forEach(x => x.classList.remove('active'));
+                t.classList.add('active');
+                state.bg = JSON.parse(t.dataset.bg);
+                renderPoster(true);
+            });
+        });
+
+        /* --------- Flags (political) ---------- */
+        flagCount.addEventListener('change', buildFlagPickers);
+
+        function buildFlagPickers() {
+            const c = Math.max(1, Math.min(5, parseInt(flagCount.value || 2)));
+            flagColorsEl.innerHTML = '';
+            state.flagColors = state.flagColors.slice(0, c);
+            while (state.flagColors.length < c) state.flagColors.push('#' + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0'));
+            for (let i = 0; i < c; i++) {
+                const inp = document.createElement('input');
+                inp.type = 'color';
+                inp.value = state.flagColors[i];
+                inp.addEventListener('input', (e) => {
+                    state.flagColors[i] = e.target.value;
+                    renderPoster(true);
+                });
+                flagColorsEl.appendChild(inp);
+            }
+            renderPoster(true);
+        }
+        buildFlagPickers();
+
+        /* ---------- Controls listeners ---------- */
+        function attachControls() {
+            layoutPreset.addEventListener('change', () => {
+                state.layoutPreset = layoutPreset.value;
+                renderPoster();
+            });
+            fontSelect.addEventListener('change', () => {
+                state.font = fontSelect.value;
+                renderPoster();
+            });
+
+            neonChip.addEventListener('click', () => {
+                state.effects.neon = !state.effects.neon;
+                neonChip.classList.toggle('active');
+                renderPoster();
+            });
+            outlineChip.addEventListener('click', () => {
+                state.effects.outline = !state.effects.outline;
+                outlineChip.classList.toggle('active');
+                renderPoster();
+            });
+            gradientChip.addEventListener('click', () => {
+                state.effects.gradient = !state.effects.gradient;
+                gradientChip.classList.toggle('active');
+                renderPoster();
+            });
+
+            quickRender.addEventListener('click', () => renderPoster(true));
+            renderHD.addEventListener('click', () => exportHD());
+            quickDownload.addEventListener('click', () => exportHD({
+                quick: true
+            }));
+        }
+        attachControls();
+
+        /* ----------- Layout calculation ----------- */
+        function computePhotoPositions(W, H, photos, preset = 'auto') {
+            const n = photos.length;
+            if (n === 0) return [];
+            let mainIndex = photos.findIndex(p => p.isMain);
+            if (mainIndex === -1) mainIndex = 0;
+            const positions = new Array(n).fill(null);
+            const cx = W / 2,
+                cy = H * 0.52;
+            const mainW = Math.min(W * 0.56, H * 0.72);
+            const mainH = mainW * 0.68;
+            const small = Math.min(W, H) * 0.23;
+
+            const effective = (preset === 'auto') ? (n <= 1 ? '1' : (n === 2 ? '1+2' : (n <= 4 ? '1+2' : '1+6'))) : preset;
+
+            positions[mainIndex] = {
+                x: cx - mainW / 2,
+                y: cy - mainH / 2,
+                w: mainW,
+                h: mainH,
+                shape: 'rounded'
+            };
+
+            const sideIdxs = photos.map((_, i) => i).filter(i => i !== mainIndex);
+            if (effective === '1') {
+                // hide others
+                sideIdxs.forEach(si => positions[si] = null);
+            } else if (effective === '1+2') {
+                const gap = 20;
+                const wS = Math.min(small, (W - mainW) / 2 - gap);
+                const hS = wS * 0.92;
+                if (sideIdxs[0]) positions[sideIdxs[0]] = {
+                    x: cx - mainW / 2 - wS - gap,
+                    y: cy - hS / 2,
+                    w: wS,
+                    h: hS,
+                    shape: 'rounded'
+                };
+                if (sideIdxs[1]) positions[sideIdxs[1]] = {
+                    x: cx + mainW / 2 + gap,
+                    y: cy - hS / 2,
+                    w: wS,
+                    h: hS,
+                    shape: 'rounded'
+                };
+                for (let i = 2; i < sideIdxs.length; i++) positions[sideIdxs[i]] = null;
+            } else {
+                const radiusX = mainW / 2 + small * 0.9;
+                const radiusY = mainH / 2 + small * 0.8;
+                const count = sideIdxs.length;
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * ((i) / count)) - Math.PI / 2 + 0.2;
+                    const px = cx + Math.cos(angle) * radiusX - small / 2;
+                    const py = cy + Math.sin(angle) * radiusY - small / 2;
+                    positions[sideIdxs[i]] = {
+                        x: px,
+                        y: py,
+                        w: small,
+                        h: small * 0.9,
+                        shape: 'rounded'
+                    };
+                }
+            }
+            return positions;
+        }
+
+        /* ---------- Rendering to DOM poster (live) ---------- */
+        function clearChildren(el) {
+            while (el.firstChild) el.removeChild(el.firstChild);
+        }
+
+        async function renderPoster(animate = false) {
+            // animate class
+            if (animate) {
+                poster.classList.remove('animate');
+                void poster.offsetWidth;
+                poster.classList.add('animate');
+            }
+
+            // background
+            if (state.bg.type === 'image' && state.bg.dataUrl) {
+                posterBg.style.backgroundImage = `url(${state.bg.dataUrl})`;
+                posterBg.style.filter = 'brightness(0.95)';
+            } else {
+                posterBg.style.backgroundImage = '';
+                // generate gradient strings for presets
+                const name = (state.bg && state.bg.name) ? state.bg.name : 'neon';
+                let css = 'linear-gradient(180deg,#201135,#2b1942)';
+                if (name === 'goldMaroon') css = 'linear-gradient(180deg,#2b0b0b,#3b1a1a)';
+                if (name === 'neon') css = 'linear-gradient(180deg,#1b0631,#3a0f55 40%, #031028)';
+                if (name === 'party') css = 'linear-gradient(180deg,#0f1533,#132a3a)';
+                if (name === 'pastel') css = 'linear-gradient(180deg,#fceaff,#d8f3ff)';
+                if (name === 'flag') css = 'linear-gradient(180deg,#0d0d23,#2d1b69)';
+                if (name === 'temple') css = 'linear-gradient(180deg,#2b1b0d,#6b3a12)';
+                posterBg.style.background = css;
+            }
+
+            // compute positions and place images
+            clearChildren(photoLayer);
+            const W = poster.clientWidth,
+                H = poster.clientHeight;
+            const positions = computePhotoPositions(W, H, state.photos, state.layoutPreset);
+
+            // if political & flagColors -> render stripes behind main via DOM layer
+            if (state.event === 'Political' && state.flagColors && state.flagColors.length) {
+                // add subtle stripes overlay
+                const stripes = document.createElement('div');
+                stripes.style.position = 'absolute';
+                stripes.style.inset = '0';
+                stripes.style.pointerEvents = 'none';
+                const n = state.flagColors.length;
+                const stripeH = 100 / n;
+                stripes.style.backgroundImage = state.flagColors.map((c, i) => `${c} ${(i*stripeH)}% , ${c} ${((i+1)*stripeH)}%`).join(',');
+                stripes.style.opacity = '0.06';
+                photoLayer.appendChild(stripes);
+            }
+
+            for (let i = 0; i < positions.length; i++) {
+                const pos = positions[i];
+                if (!pos) continue;
+                const p = state.photos[i];
+                const el = document.createElement('div');
+                el.style.position = 'absolute';
+                el.style.left = `${pos.x}px`;
+                el.style.top = `${pos.y}px`;
+                el.style.width = `${pos.w}px`;
+                el.style.height = `${pos.h}px`;
+                el.style.borderRadius = '12px';
+                el.style.overflow = 'hidden';
+                if (p && p.dataUrl) {
+                    const img = document.createElement('img');
+                    img.src = p.dataUrl;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    el.appendChild(img);
+                } else {
+                    el.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.2))';
+                    const placeholder = document.createElement('div');
+                    placeholder.style.width = '100%';
+                    placeholder.style.height = '100%';
+                    placeholder.style.display = 'flex';
+                    placeholder.style.alignItems = 'center';
+                    placeholder.style.justifyContent = 'center';
+                    placeholder.style.color = 'rgba(255,255,255,0.4)';
+                    placeholder.innerText = 'No photo';
+                    el.appendChild(placeholder);
+                }
+                // glow/border accents: use template accent or flag colors
+                if (state.event === 'Political' && state.flagColors && state.flagColors.length) {
+                    el.style.boxShadow = `0 18px 40px ${hexToRgba(state.flagColors[0],0.12)}`;
+                    el.style.border = `3px solid ${state.flagColors[0]}22`;
+                } else {
+                    el.style.boxShadow = `0 20px 40px rgba(0,0,0,0.6)`;
+                    el.style.border = `2px solid rgba(255,255,255,0.04)`;
+                }
+                photoLayer.appendChild(el);
+            }
+
+            // build text layer content (inside poster)
+            clearChildren(textLayer);
+            textLayer.style.pointerEvents = 'none';
+            // Title area
+            const titleEl = document.createElement('div');
+            titleEl.className = 'title';
+            titleEl.style.marginTop = '22px';
+            const subtitleEl = document.createElement('div');
+            subtitleEl.className = 'subtitle';
+            const metaEl = document.createElement('div');
+            metaEl.className = 'meta';
+
+            // Compose texts
+            if (state.event === 'Marriage') {
+                const b = state.text.bride || 'BRIDE';
+                const g = state.text.groom || 'GROOM';
+                titleEl.innerText = `${b} ♥ ${g}`;
+                subtitleEl.innerText = state.text.bless || '';
+                metaEl.innerText = `${state.text.date||''} ${state.text.venue? ' • ' + state.text.venue : ''}`;
+            } else if (state.event === 'Birthday') {
+                titleEl.innerText = state.text.name || 'HAPPY BIRTHDAY';
+                subtitleEl.innerText = state.text.wish || '';
+                metaEl.innerText = `${state.text.date||''} ${state.text.venue? ' • ' + state.text.venue : ''}`;
+            } else if (state.event === 'Baby Shower') {
+                titleEl.innerText = state.text.baby || 'Welcome Baby';
+                subtitleEl.innerText = state.text.parents ? `Parents: ${state.text.parents}` : '';
+                metaEl.innerText = `${state.text.date||''} ${state.text.venue? ' • ' + state.text.venue : ''}`;
+            } else {
+                titleEl.innerText = state.text.eventName || 'Political Event';
+                subtitleEl.innerText = state.text.slogan || '';
+                metaEl.innerText = `${state.text.leader? 'Leader: ' + state.text.leader : ''} ${state.text.date? (' • '+state.text.date) : ''} ${state.text.venue? (' • '+state.text.venue) : ''}`;
+            }
+
+            // font family
+            const fontFamily = state.font === 'Orbitron' ? "'Orbitron', monospace" : (state.font === 'Noto Sans Tamil' ? "'Noto Sans Tamil', sans-serif" : 'Poppins, sans-serif');
+            titleEl.style.fontFamily = fontFamily;
+            subtitleEl.style.fontFamily = fontFamily;
+            metaEl.style.fontFamily = fontFamily;
+
+            // effects: gradient or neon or outline
+            if (state.effects.gradient) {
+                titleEl.style.backgroundImage = 'linear-gradient(45deg,#ffb3c6,#9b7bff,#06ffa5)';
+                titleEl.style.webkitBackgroundClip = 'text';
+                titleEl.style.webkitTextFillColor = 'transparent';
+            } else {
+                titleEl.style.color = (state.event === 'Political' && state.flagColors.length) ? state.flagColors[0] : '#fff';
+            }
+            if (state.effects.outline) {
+                titleEl.style.textShadow = '0 0 0 rgba(0,0,0,0), -2px 0 0 rgba(0,0,0,0.45), 2px 0 0 rgba(0,0,0,0.45)';
+            } else if (state.effects.neon) {
+                titleEl.style.textShadow = '0 8px 28px rgba(131,56,236,0.18)';
+            } else {
+                titleEl.style.textShadow = '0 6px 18px rgba(0,0,0,0.5)';
+            }
+
+            textLayer.appendChild(titleEl);
+            if (subtitleEl.innerText) textLayer.appendChild(subtitleEl);
+            if (metaEl.innerText) textLayer.appendChild(metaEl);
+        }
+
+        /* ------------ Helper: hex to rgba ------------- */
+        function hexToRgba(hex, a = 1) {
+            hex = hex.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            return `rgba(${r},${g},${b},${a})`;
+        }
+
+        /* --------------- EXPORT (canvas) ---------------- */
+        async function exportHD(opts = {
+            quick: false
+        }) {
+            const fmt = exportFormat.value || 'png';
+            const size = exportSize.value.split('x');
+            const W = parseInt(size[0]),
+                H = parseInt(size[1]);
+
+            // draw onto offscreen canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = W;
+            canvas.height = H;
+            const ctx = canvas.getContext('2d');
+
+            // background: if image type -> draw image; else generate preset gradient
+            if (state.bg.type === 'image' && state.bg.dataUrl) {
+                await drawImageCover(ctx, state.bg.dataUrl, W, H);
+            } else {
+                drawPresetBG(ctx, W, H, state.bg.name || 'neon', state.flagColors);
+            }
+
+            // draw template subtle top glow
+            ctx.globalAlpha = 0.06;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, W, H * 0.06);
+            ctx.globalAlpha = 1;
+
+            // compute photo positions scaled to W,H using same layout logic
+            const previewW = poster.clientWidth,
+                previewH = poster.clientHeight;
+            const positions = computePhotoPositions(W, H, state.photos, state.layoutPreset);
+
+            // if political -> flag stripes
+            if (state.event === 'Political' && state.flagColors && state.flagColors.length) {
+                drawFlagStripesCanvas(ctx, W, H, state.flagColors);
+            }
+
+            // draw photos
+            for (let i = 0; i < positions.length; i++) {
+                const pos = positions[i];
+                if (!pos) continue;
+                if (state.photos[i] && state.photos[i].dataUrl) {
+                    await drawImageClipped(ctx, state.photos[i].dataUrl, pos.x, pos.y, pos.w, pos.h, pos.shape);
+                    // overlay fade
+                    const g = ctx.createLinearGradient(0, pos.y, 0, pos.y + pos.h);
+                    g.addColorStop(0, 'rgba(0,0,0,0.22)');
+                    g.addColorStop(0.25, 'rgba(0,0,0,0)');
+                    g.addColorStop(0.75, 'rgba(0,0,0,0)');
+                    g.addColorStop(1, 'rgba(0,0,0,0.22)');
+                    ctx.fillStyle = g;
+                    ctx.fillRect(pos.x, pos.y, pos.w, pos.h);
+                    // border
+                    ctx.lineWidth = Math.max(2, Math.min(8, Math.max(pos.w, pos.h) * 0.01));
+                    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+                    roundRect(ctx, pos.x + ctx.lineWidth / 2, pos.y + ctx.lineWidth / 2, pos.w - ctx.lineWidth, pos.h - ctx.lineWidth, 12);
+                    ctx.stroke();
+                }
+            }
+
+            // draw text (center top area); scaled sizes
+            ctx.textAlign = 'center';
+            const fontFamily = (state.font === 'Orbitron') ? 'Orbitron' : (state.font === 'Noto Sans Tamil' ? "'Noto Sans Tamil', sans-serif" : 'Poppins');
+
+            ctx.fillStyle = (state.event === 'Political' && state.flagColors.length) ? state.flagColors[0] : '#FFFFFF';
+            ctx.font = `${Math.max(36, W*0.045)}px ${fontFamily}`;
+            ctx.shadowColor = state.effects.neon ? 'rgba(255,255,255,0.16)' : 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = state.effects.neon ? 26 : 0;
+
+            // Compose same lines as DOM render
+            let lines = [];
+            if (state.event === 'Marriage') {
+                const b = state.text.bride || 'BRIDE';
+                const g = state.text.groom || 'GROOM';
+                lines.push(`${b} ♥ ${g}`);
+                if (state.text.date) lines.push(state.text.date);
+                if (state.text.venue) lines.push(state.text.venue);
+                if (state.text.bless) lines.push(state.text.bless);
+            } else if (state.event === 'Birthday') {
+                lines.push(state.text.name || 'HAPPY BIRTHDAY');
+                if (state.text.date) lines.push(state.text.date);
+                if (state.text.venue) lines.push(state.text.venue);
+                if (state.text.wish) lines.push(state.text.wish);
+            } else if (state.event === 'Baby Shower') {
+                lines.push(state.text.baby || 'Welcome Baby');
+                if (state.text.parents) lines.push('Parents: ' + state.text.parents);
+                if (state.text.date) lines.push(state.text.date);
+                if (state.text.venue) lines.push(state.text.venue);
+            } else {
+                lines.push(state.text.eventName || 'Political Event');
+                if (state.text.leader) lines.push(state.text.leader);
+                if (state.text.slogan) lines.push(state.text.slogan);
+                if (state.text.date) lines.push(state.text.date);
+                if (state.text.venue) lines.push(state.text.venue);
+            }
+
+            // draw lines centered near top
+            const startY = H * 0.08;
+            for (let i = 0; i < lines.length; i++) {
+                const size = i === 0 ? Math.max(36, W * 0.045) : Math.max(16, W * 0.028);
+                ctx.font = `${size}px ${fontFamily}`;
+                if (state.effects.gradient) {
+                    const g = ctx.createLinearGradient(W * 0.2, startY + i * size, W * 0.8, startY + i * size);
+                    g.addColorStop(0, '#ffb3c6');
+                    g.addColorStop(0.5, '#9b7bff');
+                    g.addColorStop(1, '#06ffa5');
+                    ctx.fillStyle = g;
+                } else {
+                    ctx.fillStyle = (state.event === 'Political' && state.flagColors.length) ? state.flagColors[0] : '#FFFFFF';
+                }
+                if (state.effects.outline) {
+                    ctx.lineWidth = Math.max(4, size * 0.075);
+                    ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+                    ctx.strokeText(lines[i], W / 2, startY + i * (size + 6));
+                }
+                ctx.fillText(lines[i], W / 2, startY + i * (size + 6));
+            }
+
+            // finalize: download
+            const mime = fmt === 'png' ? 'image/png' : 'image/jpeg';
+            const data = canvas.toDataURL(mime, fmt === 'jpeg' ? 0.95 : 1.0);
+            const a = document.createElement('a');
+            a.href = data;
+            a.download = `flexter-${state.event.toLowerCase().replace(/\s+/g,'-')}-${Date.now()}.${fmt==='png'?'png':'jpg'}`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        /* ----------- Canvas helpers ----------- */
+        function drawPresetBG(ctx, W, H, name = 'neon', flagColors = []) {
+            if (name === 'goldMaroon') {
+                const g = ctx.createLinearGradient(0, 0, 0, H);
+                g.addColorStop(0, '#2b0b0b');
+                g.addColorStop(1, '#2f1212');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+            } else if (name === 'neon') {
+                const g = ctx.createLinearGradient(0, 0, W, H);
+                g.addColorStop(0, '#1b0631');
+                g.addColorStop(0.5, '#3a0f55');
+                g.addColorStop(1, '#031028');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+            } else if (name === 'party' || name === 'balloons') {
+                const g = ctx.createLinearGradient(0, 0, W, H);
+                g.addColorStop(0, '#0f1533');
+                g.addColorStop(1, '#132a3a');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+                ctx.fillStyle = 'rgba(255,255,255,0.03)';
+                for (let i = 0; i < 120; i++) {
+                    ctx.fillRect(Math.random() * W, Math.random() * H, Math.random() * 6 + 2, Math.random() * 6 + 2);
+                }
+            } else if (name === 'pastel') {
+                const g = ctx.createLinearGradient(0, 0, W, H);
+                g.addColorStop(0, '#fceaff');
+                g.addColorStop(1, '#d8f3ff');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+            } else if (name === 'flag') {
+                const g = ctx.createLinearGradient(0, 0, W, H);
+                g.addColorStop(0, '#0d0d23');
+                g.addColorStop(1, '#2d1b69');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+            } else if (name === 'temple') {
+                const g = ctx.createLinearGradient(0, 0, W, H);
+                g.addColorStop(0, '#2b1b0d');
+                g.addColorStop(1, '#6b3a12');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+            } else {
+                ctx.fillStyle = '#201135';
+                ctx.fillRect(0, 0, W, H);
+            }
+        }
+
+        function drawImageCover(ctx, dataUrl, W, H) {
+            return new Promise((res) => {
+                const img = new Image();
+                img.onload = () => {
+                    // scale cover
+                    const r = Math.max(W / img.width, H / img.height);
+                    const nw = img.width * r,
+                        nh = img.height * r;
+                    const dx = (W - nw) / 2,
+                        dy = (H - nh) / 2;
+                    ctx.drawImage(img, dx, dy, nw, nh);
+                    res();
+                };
+                img.src = dataUrl;
+            });
+        }
+
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + w, y, x + w, y + h, r);
+            ctx.arcTo(x + w, y + h, x, y + h, r);
+            ctx.arcTo(x, y + h, x, y, r);
+            ctx.arcTo(x, y, x + w, y, r);
+            ctx.closePath();
+        }
+
+        function drawImageClipped(ctx, dataUrl, x, y, w, h, shape = 'rounded') {
+            return new Promise((res) => {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.save();
+                    if (shape === 'circle') {
+                        ctx.beginPath();
+                        ctx.arc(x + w / 2, y + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2);
+                        ctx.closePath();
+                        ctx.clip();
+                    } else {
+                        roundRect(ctx, x, y, w, h, Math.min(28, w * 0.08));
+                        ctx.clip();
+                    }
+                    // draw image to fill box while preserving aspect (cover)
+                    const scale = Math.max(w / img.width, h / img.height);
+                    const nw = img.width * scale,
+                        nh = img.height * scale;
+                    const dx = x + (w - nw) / 2,
+                        dy = y + (h - nh) / 2;
+                    ctx.drawImage(img, dx, dy, nw, nh);
+                    ctx.restore();
+                    res();
+                };
+                img.src = dataUrl;
+            });
+        }
+
+        function drawFlagStripesCanvas(ctx, W, H, colors) {
+            const n = colors.length;
+            const stripeH = H / n;
+            ctx.save();
+            for (let i = 0; i < n; i++) {
+                ctx.fillStyle = colors[i];
+                ctx.globalAlpha = 0.06;
+                ctx.fillRect(0, i * stripeH, W, stripeH);
+            }
+            ctx.globalAlpha = 1;
+            ctx.restore();
+        }
+
+        /* ----------- UI hookup & initial state ---------- */
+        function renderInitial() {
+            // templates already built in init
+            renderSlots();
+            renderPoster(true);
+        }
+        renderInitial();
+
+        /* Small quick helper for quick download using canvas render of current visible poster size (not HD) */
+        async function exportCurrentAsImage() {
+            // use renderHD with size equal to poster DOM width/height scaled
+            const W = poster.clientWidth,
+                H = poster.clientHeight;
+            // create canvas and draw using same logic scaled to W,H
+            // reuse exportHD logic by temporarily setting export size values
+            exportSize.value = `${Math.round(W)}x${Math.round(H)}`;
+            await exportHD({
+                quick: true
+            });
+        }
+
+        /* Small helpers expose */
+        function hexToRgba(hex, a = 1) {
+            hex = hex.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            return `rgba(${r},${g},${b},${a})`;
+        }
+
+        /* quick download button */
+        quickDownload.addEventListener('click', () => exportCurrentAsImage());
+    </script>
+</body>
+
+</html>
